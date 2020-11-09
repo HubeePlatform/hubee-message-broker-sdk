@@ -1,0 +1,9 @@
+{
+  "HubeeMessageBrokerConfig": {
+    "MessageBroker": "InMemory",
+    "ApplicationName": "",
+    "HostName": "",
+    "UserName": "",
+    "Password": ""
+  }
+}

@@ -1,0 +1,60 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30611.23
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{8291EA39-0F48-4B20-AA94-A890FBD7171A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hubee.MessageBroker.Sdk", "src\Hubee.MessageBroker.Sdk\Hubee.MessageBroker.Sdk.csproj", "{93C8ACEC-0580-48C9-9F61-8A6C0489B783}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hubee.MessageBroker.Sdk.Tests", "src\Hubee.MessageBroker.Sdk.Tests\Hubee.MessageBroker.Sdk.Tests.csproj", "{6666B101-9A9B-4BBA-89D7-6FEF32197B22}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "sample", "sample", "{A1B7F637-244B-4F30-A955-07950C150811}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PublisherApi", "sample\PublisherApi\PublisherApi.csproj", "{6F63A76B-11C7-44A2-8BA5-A663E5099100}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Events", "sample\Events\Events.csproj", "{D576A591-CE07-4C41-B974-7C8E748228EF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SubscriberWorker", "sample\SubscriberWorker\SubscriberWorker.csproj", "{95E5B899-43CE-4E73-A442-F5DD58F2C2FB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{93C8ACEC-0580-48C9-9F61-8A6C0489B783}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{93C8ACEC-0580-48C9-9F61-8A6C0489B783}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{93C8ACEC-0580-48C9-9F61-8A6C0489B783}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{93C8ACEC-0580-48C9-9F61-8A6C0489B783}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6666B101-9A9B-4BBA-89D7-6FEF32197B22}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6666B101-9A9B-4BBA-89D7-6FEF32197B22}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6666B101-9A9B-4BBA-89D7-6FEF32197B22}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6666B101-9A9B-4BBA-89D7-6FEF32197B22}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6F63A76B-11C7-44A2-8BA5-A663E5099100}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6F63A76B-11C7-44A2-8BA5-A663E5099100}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6F63A76B-11C7-44A2-8BA5-A663E5099100}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6F63A76B-11C7-44A2-8BA5-A663E5099100}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D576A591-CE07-4C41-B974-7C8E748228EF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D576A591-CE07-4C41-B974-7C8E748228EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D576A591-CE07-4C41-B974-7C8E748228EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D576A591-CE07-4C41-B974-7C8E748228EF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{95E5B899-43CE-4E73-A442-F5DD58F2C2FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{95E5B899-43CE-4E73-A442-F5DD58F2C2FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{95E5B899-43CE-4E73-A442-F5DD58F2C2FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{95E5B899-43CE-4E73-A442-F5DD58F2C2FB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{93C8ACEC-0580-48C9-9F61-8A6C0489B783} = {8291EA39-0F48-4B20-AA94-A890FBD7171A}
+		{6666B101-9A9B-4BBA-89D7-6FEF32197B22} = {8291EA39-0F48-4B20-AA94-A890FBD7171A}
+		{6F63A76B-11C7-44A2-8BA5-A663E5099100} = {A1B7F637-244B-4F30-A955-07950C150811}
+		{D576A591-CE07-4C41-B974-7C8E748228EF} = {A1B7F637-244B-4F30-A955-07950C150811}
+		{95E5B899-43CE-4E73-A442-F5DD58F2C2FB} = {A1B7F637-244B-4F30-A955-07950C150811}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2DA33D0B-9E25-47A7-B0AA-80211B28E5E2}
+	EndGlobalSection
+EndGlobal

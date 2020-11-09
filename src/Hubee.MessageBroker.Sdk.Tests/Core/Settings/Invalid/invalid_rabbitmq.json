@@ -1,0 +1,9 @@
+{
+  "HubeeMessageBrokerConfig": {
+    "MessageBroker": "RabbitMQ",
+    "ApplicationName": "test-service",
+    "HostName": "",
+    "UserName": "",
+    "Password": ""
+  }
+}

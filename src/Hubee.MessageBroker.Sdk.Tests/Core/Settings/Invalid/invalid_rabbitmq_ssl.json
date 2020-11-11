@@ -1,0 +1,12 @@
+{
+  "HubeeMessageBrokerConfig": {
+    "MessageBroker": "RabbitMQ",
+    "Protocol": "Ssl",
+    "ApplicationName": "test-service",
+    "HostName": "localhost",
+    "Port": "",
+    "VirtualHost": "",
+    "UserName": "guest",
+    "Password": "guest"
+  }
+}

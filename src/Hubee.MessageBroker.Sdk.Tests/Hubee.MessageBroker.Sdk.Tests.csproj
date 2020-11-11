@@ -29,10 +29,16 @@
     <None Update="Core\Settings\Invalid\invalid_in_memory.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Core\Settings\Invalid\invalid_rabbitmq_ssl.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Core\Settings\Invalid\invalid_rabbitmq.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Core\Settings\Valid\valid_in_memory.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Core\Settings\Valid\valid_rabbitmq_ssl.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Core\Settings\Valid\valid_rabbitmq.json">

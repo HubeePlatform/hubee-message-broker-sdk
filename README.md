@@ -8,6 +8,8 @@ Hubee Message Broker Sdk é uma biblioteca que faz abstração da implementaçã
 
 Após realizar a instalação do SDK em seu projeto podemos iniciar a configuração para utilizá-lo, segue abaixo a configuração que deve ser realizada na seção "HubeeMessageBrokerConfig" dentro do arquivo appsettings:
 
+### Campos Obrigatórios
+
 ```json
   "HubeeMessageBrokerConfig": {
     "MessageBroker": "RabbitMQ",
@@ -18,12 +20,29 @@ Após realizar a instalação do SDK em seu projeto podemos iniciar a configura�
   }
 ```
 
+### Campos opcionais
+
+```json
+  "HubeeMessageBrokerConfig": {
+    "MessageBroker": "RabbitMQ",
+    "Protocol": "Ssl", //(opcional)
+    "ApplicationName": "name-service",
+    "HostName": "localhost",
+    "Port": "5671", //(opcional)
+    "VirtualHost":"guest", //(opcional)
+    "UserName": "guest",
+    "Password": "guest"
+  }
+```
+
+Os campos opcionais não são necessários adicionar na configuração, caso não for utilizar deve-se remover.
+
 ### Message Broker disponíveis
 
 | Message Broker | Observação |
 |:----|:----------|
 | InMemory | Facilita os testes para a manipulação dos eventos. [Segue a documentação para um melhor entendimento](https://masstransit-project.com/usage/transports/in-memory.html) |
-| RabbitMQ |       |
+| RabbitMQ | Para utilizar o CloudAMQP para a hospedagem do broker deve-se adicionar o Protocol:"Ssl", Port:"5671" e o VirtualHost:"valor" |
 
 E depois da configuração acima já podemos utilizar o SDK, segue as opções de utilização.
 

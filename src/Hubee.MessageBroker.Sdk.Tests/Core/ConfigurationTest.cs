@@ -11,6 +11,7 @@ namespace Hubee.MessageBroker.Sdk.Tests.Core
         [InlineData("invalid_application_name", true)]
         [InlineData("invalid_in_memory", true)]
         [InlineData("invalid_rabbitmq", true)]
+        [InlineData("invalid_rabbitmq_ssl", true)]
         public void Should_DoNotAcceptSettings_When_Invalid(string nameSetting, bool expected)
         {
             var config = GetConfig(nameSetting, "Invalid");
@@ -20,6 +21,7 @@ namespace Hubee.MessageBroker.Sdk.Tests.Core
         [Theory]
         [InlineData("valid_in_memory", false)]
         [InlineData("valid_rabbitmq", false)]
+        [InlineData("valid_rabbitmq_ssl", false)]
         public void Should_AcceptSettings_When_valid(string nameSetting, bool expected)
         {
             var config = GetConfig(nameSetting, "Valid");

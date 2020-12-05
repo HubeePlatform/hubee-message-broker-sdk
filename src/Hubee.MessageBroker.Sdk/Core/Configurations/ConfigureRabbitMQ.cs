@@ -12,7 +12,11 @@ namespace Hubee.MessageBroker.Sdk.Core.Configurations
             services.AddMassTransit(x => x.AddBus(context => Bus.Factory.CreateUsingRabbitMq(cfg =>
              {
                  cfg.UseHealthCheck(context);
-                 cfg.Host(config.HostName, config.VirtualHost,
+
+                 if (string.IsNullOrEmpty(config.Port))
+                     config.Port = "5672";
+
+                 cfg.Host(config.HostName, ushort.Parse(config.Port), config.VirtualHost,
                       h =>
                       {
                           h.Username(config.UserName);

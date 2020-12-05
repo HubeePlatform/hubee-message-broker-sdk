@@ -27,6 +27,7 @@ namespace Hubee.MessageBroker.Sdk.Services
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message, ex.StackTrace);
+                throw ex;
             }
         }
 
@@ -39,6 +40,7 @@ namespace Hubee.MessageBroker.Sdk.Services
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message, ex.StackTrace);
+                throw ex;
             }
         }
     }

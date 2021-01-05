@@ -1,4 +1,5 @@
 ﻿using Hubee.MessageBroker.Sdk.Core.Helpers;
+using System;
 
 namespace Hubee.MessageBroker.Sdk.Core.Models
 {
@@ -17,6 +18,8 @@ namespace Hubee.MessageBroker.Sdk.Core.Models
 
         public bool IsInvalid()
         {
+            TryGetConfigFromEnvironment();
+
             return !IsInMemoryValid() &&
                 (IsRabbitMQInvalid() ||
                  string.IsNullOrEmpty(ApplicationName) ||
@@ -24,6 +27,21 @@ namespace Hubee.MessageBroker.Sdk.Core.Models
                  string.IsNullOrEmpty(UserName) ||
                  string.IsNullOrEmpty(Password)
                 );
+        }
+
+        private void TryGetConfigFromEnvironment()
+        {
+            var host = Environment.GetEnvironmentVariable("MESSAGEBROKER_HOSTNAME");
+            this.HostName = host ?? this.HostName;
+
+            var port = Environment.GetEnvironmentVariable("MESSAGEBROKER_PORT");
+            this.Port = port ?? this.Port;
+
+            var username = Environment.GetEnvironmentVariable("MESSAGEBROKER_USERNAME");
+            this.UserName = username ?? this.UserName;
+
+            var password = Environment.GetEnvironmentVariable("MESSAGEBROKER_PASSWORD");
+            this.Password = password ?? this.Password;
         }
 
         private bool IsRabbitMQInvalid()

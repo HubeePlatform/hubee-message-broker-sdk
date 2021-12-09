@@ -67,9 +67,14 @@ namespace Hubee.MessageBroker.Sdk.Core.Options
             var configuration = _serviceProvider.GetService<IConfiguration>();
 
             var applicationName = configuration["HubeeMessageBrokerConfig:ApplicationName"];
-            var queueName = $"{applicationName}.{handleName}.{eventName}";
+            var queueName = $"{applicationName}.{RemoveGenericsStringFromHandleName(handleName)}.{eventName}";
 
             return queueName;
+        }
+
+        private static string RemoveGenericsStringFromHandleName(string handleName)
+        {
+            return handleName.Replace(handleName.Substring(handleName.IndexOf('`')), string.Empty);
         }
     }
 }

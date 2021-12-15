@@ -43,5 +43,18 @@ namespace Hubee.MessageBroker.Sdk.Services
                 throw ex;
             }
         }
+
+        public async Task Publish(object message, Type type)
+        {
+            try
+            {
+                await _endpoint.Publish(message, type);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message, ex.StackTrace);
+                throw ex;
+            }
+        }
     }
 }

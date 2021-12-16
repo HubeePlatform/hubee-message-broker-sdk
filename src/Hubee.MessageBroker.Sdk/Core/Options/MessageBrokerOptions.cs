@@ -74,6 +74,9 @@ namespace Hubee.MessageBroker.Sdk.Core.Options
 
         private static string RemoveGenericsStringFromHandleName(string handleName)
         {
+            if (handleName.IndexOf('`').Equals(-1))
+                return handleName;
+
             return handleName.Replace(handleName.Substring(handleName.IndexOf('`')), string.Empty);
         }
     }

@@ -1,8 +1,9 @@
 ﻿using MassTransit;
+using System;
 
 namespace Hubee.MessageBroker.Sdk.Core.Models.Headers
 {
-    public class ExceptionInfoHeader
+    public class ExceptionInfoHeader : Exception
     {
         public ExceptionInfoHeader(string exceptionType, InnerException innerException, string stackTrace, string message, string source)
         {
@@ -13,11 +14,17 @@ namespace Hubee.MessageBroker.Sdk.Core.Models.Headers
             Source = source;
         }
 
+        public ExceptionInfoHeader(string message, string stackTrace)
+        {
+            Message = message;
+            StackTrace = stackTrace;
+        }
+
         public string ExceptionType { get; set; }
-        public InnerException InnerException { get; set; }
-        public string StackTrace { get; set; }
-        public string Message { get; set; }
-        public string Source { get; set; }
+        public new InnerException InnerException { get; set; }
+        public new string StackTrace { get; set; }
+        public new string Message { get; set; }
+        public new string Source { get; set; }
 
         public static ExceptionInfoHeader Generate(ExceptionInfo exception)
         {

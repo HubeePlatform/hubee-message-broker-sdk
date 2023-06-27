@@ -1,6 +1,7 @@
 ﻿using MassTransit;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace Hubee.MessageBroker.Sdk.Core.Models.Headers
@@ -31,6 +32,20 @@ namespace Hubee.MessageBroker.Sdk.Core.Models.Headers
                 context?.FaultMessageTypes,
                 ExtractException(context.Exceptions)
                 );
+        }
+
+        public static FaultHeader Generate<TCustomEvent>(ConsumeContext<TCustomEvent> context) where TCustomEvent : class
+        {
+            return new FaultHeader(
+                context.MessageId.GetValueOrDefault(),
+                context.MessageId.GetValueOrDefault(),
+                DateTime.Parse(context.ReceiveContext.TransportHeaders.Get("MT-Fault-Timestamp", DateTime.UtcNow.ToString())),
+                new string[] { context.ReceiveContext.TransportHeaders.Get("MT-Fault-MessageType", string.Empty) },
+                new List<ExceptionInfoHeader>
+                {
+                    new ExceptionInfoHeader(context.ReceiveContext.TransportHeaders.Get("MT-Fault-Message", string.Empty),
+                                            context.ReceiveContext.TransportHeaders.Get("MT-Fault-StackTrace", string.Empty))
+                });
         }
 
         private static IEnumerable<ExceptionInfoHeader> ExtractException(ExceptionInfo[] exceptions)

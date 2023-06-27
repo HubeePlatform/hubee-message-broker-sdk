@@ -6,7 +6,7 @@ namespace Hubee.MessageBroker.Sdk.Core.Models.Headers
 {
     public class EventHeader
     {
-        public EventHeader(Guid? messageId, string correlationId, Guid? requestId, Guid? initiatorId, Guid? conversationId, Uri sourceAddress, Uri destinationAddress, Uri responseAddress, Uri faultAddress, DateTime? expirationTime, DateTime? sentTime, IEnumerable<KeyValuePair<string, object>> custom)
+        public EventHeader(Guid? messageId, string correlationId, Guid? requestId, Guid? initiatorId, Guid? conversationId, Uri sourceAddress, Uri destinationAddress, Uri responseAddress, Uri faultAddress, DateTime? expirationTime, DateTime? sentTime, IEnumerable<KeyValuePair<string, object>> custom, int retryCount)
         {
             MessageId = messageId;
             CorrelationId = correlationId;
@@ -20,6 +20,7 @@ namespace Hubee.MessageBroker.Sdk.Core.Models.Headers
             ExpirationTime = expirationTime;
             SentTime = sentTime;
             CustomHeader = custom;
+            RetryCount = retryCount;
         }
 
         public Guid? MessageId { get; set; }
@@ -35,7 +36,7 @@ namespace Hubee.MessageBroker.Sdk.Core.Models.Headers
         public DateTime? SentTime { get; set; }
         public IEnumerable<KeyValuePair<string, object>> CustomHeader { get; set; }
         public FaultHeader Fault { get; set; }
-
+        public int RetryCount { get; set; }
         public static EventHeader Generate<TCustomEvent>(ConsumeContext<TCustomEvent> context) where TCustomEvent : class
         {
             return new EventHeader(
@@ -50,9 +51,16 @@ namespace Hubee.MessageBroker.Sdk.Core.Models.Headers
                 context?.FaultAddress,
                 context?.ExpirationTime,
                 context?.SentTime,
-                context?.Headers?.GetAll());
+                context?.Headers?.GetAll(),
+                context?.GetRetryCount() ?? 0);
         }
         public EventHeader AddFault<TCustomEvent>(Fault<TCustomEvent> context) where TCustomEvent : class
+        {
+            this.Fault = FaultHeader.Generate(context);
+            return this;
+        }
+
+        public EventHeader AddFault<TCustomEvent>(ConsumeContext<TCustomEvent> context) where TCustomEvent : class
         {
             this.Fault = FaultHeader.Generate(context);
             return this;

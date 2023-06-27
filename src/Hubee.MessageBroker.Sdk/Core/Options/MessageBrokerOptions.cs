@@ -32,16 +32,25 @@ namespace Hubee.MessageBroker.Sdk.Core.Options
             return this;
         }
 
-        public MessageBrokerOptions Subscribe<TEvent, THandle>(int retryCount = SubscribeDefault.RETRY_COUNT, int interval = SubscribeDefault.RETRY_INTERVAL) where THandle : class, IConsumer
+        public MessageBrokerOptions Subscribe<TEvent, THandle>(int retryCount = SubscribeDefault.RETRY_COUNT, int interval = SubscribeDefault.RETRY_INTERVAL, string queueName = null) where THandle : class, IConsumer
         {
             var eventBus = _serviceProvider.GetService<IBusControl>();
 
-            var eventHandler = eventBus.ConnectReceiveEndpoint(GenerateQueueName(typeof(TEvent).Name, typeof(THandle).Name), x =>
+            var formattedQueueName = !string.IsNullOrEmpty(queueName) ? queueName : GenerateQueueName(typeof(TEvent).Name, typeof(THandle).Name);
+
+            var eventHandler = eventBus.ConnectReceiveEndpoint(formattedQueueName, x =>
             {
-                x.Consumer<THandle>(_serviceProvider, c => c.UseMessageRetry(r =>
+                if (retryCount > 0)
                 {
-                    r.Interval(retryCount, TimeSpan.FromSeconds(interval));
-                }));
+                    x.Consumer<THandle>(_serviceProvider, c => c.UseMessageRetry(r =>
+                    {
+                        r.Interval(retryCount, TimeSpan.FromSeconds(interval));
+                    }));
+                }
+                else
+                {
+                    x.Consumer<THandle>(_serviceProvider);
+                }
             });
 
             eventHandler.Ready.Wait();
@@ -49,11 +58,11 @@ namespace Hubee.MessageBroker.Sdk.Core.Options
             return this;
         }
 
-        public MessageBrokerOptions SubscribeFault<TEvent, THandle>() where THandle : class, IConsumer
+        public MessageBrokerOptions SubscribeFault<TEvent, THandle>(string queueName = null) where THandle : class, IConsumer
         {
             var eventBus = _serviceProvider.GetService<IBusControl>();
 
-            var eventHandler = eventBus.ConnectReceiveEndpoint(GenerateQueueName(typeof(TEvent).Name, typeof(THandle).Name), x =>
+            var eventHandler = eventBus.ConnectReceiveEndpoint(!string.IsNullOrEmpty(queueName) ? queueName : GenerateQueueName(typeof(TEvent).Name, typeof(THandle).Name), x =>
             {
                 x.Consumer<THandle>(_serviceProvider);
             });

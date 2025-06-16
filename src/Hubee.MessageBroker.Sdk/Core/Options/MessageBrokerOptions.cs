@@ -1,6 +1,7 @@
 ﻿using GreenPipes;
 using Hubee.MessageBroker.Sdk.Core.Models.Constants;
 using MassTransit;
+using MassTransit.RabbitMqTransport;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -32,20 +33,55 @@ namespace Hubee.MessageBroker.Sdk.Core.Options
             return this;
         }
 
-        public MessageBrokerOptions Subscribe<TEvent, THandle>(int retryCount = SubscribeDefault.RETRY_COUNT, int interval = SubscribeDefault.RETRY_INTERVAL) where THandle : class, IConsumer
+        /// <summary>
+        /// Subscribes a consumer to handle specific event messages with retry policies and queue configuration.
+        /// </summary>
+        /// <typeparam name="TEvent">The type of event message to consume</typeparam>
+        /// <typeparam name="THandle">The type of consumer that will handle the event</typeparam>
+        /// <param name="retryCount">Number of retry attempts for failed messages</param>
+        /// <param name="interval">Time interval in seconds between retries</param>
+        /// <param name="prefetchCount">Maximum number of unacknowledged messages that can be processed simultaneously</param>
+        /// <param name="concurrentMessageLimit">Maximum number of messages that can be processed concurrently</param>
+        /// <param name="priorityQueue">Priority queue level (recommended values between 1-10)</param>
+        /// <returns>The current MessageBrokerOptions instance for method chaining</returns>
+        public MessageBrokerOptions Subscribe<TEvent, THandle>(
+            int retryCount = SubscribeDefault.RETRY_COUNT,
+            int interval = SubscribeDefault.RETRY_INTERVAL,
+            ushort? prefetchCount = null,
+            int? concurrentMessageLimit = null,
+            int? priorityQueue = null
+            ) where THandle : class, IConsumer
         {
             var eventBus = _serviceProvider.GetService<IBusControl>();
 
             var eventHandler = eventBus.ConnectReceiveEndpoint(GenerateQueueName(typeof(TEvent).Name, typeof(THandle).Name), x =>
             {
-                x.Consumer<THandle>(_serviceProvider, c => c.UseMessageRetry(r =>
+                if (x is IRabbitMqReceiveEndpointConfigurator rabbitMqConfig)
                 {
-                    r.Interval(retryCount, TimeSpan.FromSeconds(interval));
-                }));
+                    if (prefetchCount.HasValue)
+                        rabbitMqConfig.PrefetchCount = prefetchCount.Value;
+
+                    if (priorityQueue.HasValue)
+                    {
+                        if (priorityQueue < 1 || priorityQueue > 255)
+                            throw new ArgumentOutOfRangeException(nameof(priorityQueue), "Priority must be between 1 and 255.");
+
+                        rabbitMqConfig.SetQueueArgument("x-max-priority", priorityQueue);
+                    }
+                }
+
+                x.Consumer<THandle>(_serviceProvider,
+                    c =>
+                    {
+                        c.UseMessageRetry(r => { r.Interval(retryCount, TimeSpan.FromSeconds(interval)); });
+
+                        if (concurrentMessageLimit.HasValue)
+                            c.UseConcurrentMessageLimit(concurrentMessageLimit.Value);
+                    }
+                );
             });
 
             eventHandler.Ready.Wait();
-
             return this;
         }
 

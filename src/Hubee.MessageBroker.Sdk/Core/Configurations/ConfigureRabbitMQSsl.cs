@@ -18,6 +18,7 @@ namespace Hubee.MessageBroker.Sdk.Core.Configurations
                      {
                          h.Username(config.UserName);
                          h.Password(config.Password);
+                         h.Heartbeat(config.Heartbeat);
 
                          h.UseSsl(s =>
                          {

@@ -21,6 +21,7 @@ namespace Hubee.MessageBroker.Sdk.Core.Configurations
                       {
                           h.Username(config.UserName);
                           h.Password(config.Password);
+                          h.Heartbeat(config.Heartbeat);
                       });
 
                  cfg.ExchangeType = ExchangeType.Fanout;

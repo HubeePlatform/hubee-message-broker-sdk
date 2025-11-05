@@ -4,6 +4,7 @@
     "ApplicationName": "test-service",
     "HostName": "localhost",
     "UserName": "guest",
-    "Password": "guest"
+    "Password": "guest",
+    "Heartbeat": 11
   }
 }

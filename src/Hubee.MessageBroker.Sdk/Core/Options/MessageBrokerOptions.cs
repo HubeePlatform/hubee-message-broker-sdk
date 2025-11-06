@@ -73,7 +73,8 @@ namespace Hubee.MessageBroker.Sdk.Core.Options
                 x.Consumer<THandle>(_serviceProvider,
                     c =>
                     {
-                        c.UseMessageRetry(r => { r.Interval(retryCount, TimeSpan.FromSeconds(interval)); });
+                        if (retryCount > 0)
+                            c.UseMessageRetry(r => { r.Interval(retryCount, TimeSpan.FromSeconds(interval)); });
 
                         if (concurrentMessageLimit.HasValue)
                             c.UseConcurrentMessageLimit(concurrentMessageLimit.Value);

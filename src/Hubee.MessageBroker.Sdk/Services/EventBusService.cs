@@ -44,11 +44,91 @@ namespace Hubee.MessageBroker.Sdk.Services
             }
         }
 
+        public async Task Publish<T>(object message, Guid? messageId, Guid? correlationId) where T : class
+        {
+            try
+            {
+                await _endpoint.Publish<T>(message, context =>
+                {
+                    if (messageId.HasValue)
+                        context.MessageId = messageId;
+
+                    if (correlationId.HasValue)
+                        context.CorrelationId = correlationId;
+                });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message, ex.StackTrace);
+                throw ex;
+            }
+        }
+
+        public async Task Publish<T>(object message, Guid? messageId, Guid? correlationId, CancellationToken cancellationToken) where T : class
+        {
+            try
+            {
+                await _endpoint.Publish<T>(message, context =>
+                {
+                    if (messageId.HasValue)
+                        context.MessageId = messageId;
+
+                    if (correlationId.HasValue)
+                        context.CorrelationId = correlationId;
+                }, cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message, ex.StackTrace);
+                throw ex;
+            }
+        }
+
         public async Task Publish(object message, Type type)
         {
             try
             {
                 await _endpoint.Publish(message, type);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message, ex.StackTrace);
+                throw ex;
+            }
+        }
+
+        public async Task Publish(object message, Type type, Guid? messageId, Guid? correlationId)
+        {
+            try
+            {
+                await _endpoint.Publish(message, type, context =>
+                {
+                    if (messageId.HasValue)
+                        context.MessageId = messageId;
+
+                    if (correlationId.HasValue)
+                        context.CorrelationId = correlationId;
+                });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message, ex.StackTrace);
+                throw ex;
+            }
+        }
+
+        public async Task Publish(object message, Type type, Guid? messageId, Guid? correlationId, CancellationToken cancellationToken)
+        {
+            try
+            {
+                await _endpoint.Publish(message, type, context =>
+                {
+                    if (messageId.HasValue)
+                        context.MessageId = messageId;
+
+                    if (correlationId.HasValue)
+                        context.CorrelationId = correlationId;
+                }, cancellationToken);
             }
             catch (Exception ex)
             {
